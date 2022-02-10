@@ -23,7 +23,14 @@ if __name__ == "__main__":
 
 
     # initialize bot
-    bot = SpotifyBot(AUTH(scopes, *SECRETS['discover']))
+    bot = SpotifyBot(AUTH(scopes, *SECRETS['sorter']))
     # get Liked Songs library from spotify
+    # tracks is a list of Track wrapper objects
+    # the data returned by spotify does not provide genre,
+    # therefore have to use the artist for each track to get the associated genre
+    # ie. have to create function for bot to get genre based on artist
+    # eg. def get_genre_by_artist(self, artist)
     tracks = bot.get_liked_library()
-    print(len(tracks))
+    print(type(tracks))
+    print(type(tracks[0]))
+

@@ -21,6 +21,12 @@ class SpotifyBot(object):
         self.auth = auth
 
 
+    # spotify actually returns a dictionary full of a bunch of metadata
+    # only the 'items' field contains what we actually want
+    # the items field contains a list of dictionaries
+    # each of these dictionaries has two fields:
+        # 'added at', 'track'
+    # each track is its own dictionary
     def get_liked_library(self):
         results = self.auth.spotify.current_user_saved_tracks()
         tracks = [item['track'] for item in results['items']]
@@ -28,7 +34,6 @@ class SpotifyBot(object):
             results = self.auth.spotify.next(results)
             tracks.extend([item['track'] for item in results['items']])
 
-        print(tracks[0].keys())
         return list(map(Track, tracks))
 
 
