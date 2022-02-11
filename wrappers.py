@@ -45,21 +45,37 @@ class Playlist(object):
             results = spotify.next(results)
             tracks.extend([item['track'] for item in results['items']])
 
-        self.tracks = list(map(Track, tracks))
+        return list(map(Track, tracks))
 
 
 
 # can maybe use as so:
 # tracks = list(map(Track, track_list))
 class Track(object):
-    """Object wrapper for tracks returned by the Spotify REST API"""
+    """Simple object wrapper for tracks returned by the Spotify REST API"""
     def __init__(self, track):
         super(Track, self).__init__()
         self.track = track
         self.album = track['album']
-        self.artists = track['artists']
+        self.artists = self._get_artists(track['artists'])
+
         self.duration_ms = track['duration_ms']
         self.explicit = track['explicit']
         self.id = track['id']
         self.name = track['name']
         self.uri = track['uri']
+
+
+    def _get_artists(self, artists: list):
+        return list(map(Artist, artists))
+
+
+
+class Artist(object):
+    """Simple object wrapper for artist returned by the Spotify REST API"""
+    def __init__(self, artist):
+        super(Artist, self).__init__()
+        self.id = artist['id']
+        self.name = artist['name']
+        self.type = artist['type']
+        self.uri = artist['uri']

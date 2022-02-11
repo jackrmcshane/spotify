@@ -4,9 +4,28 @@ import os
 import sys
 import spotipy
 from spotbots import SpotifyBot, SaverBot, SorterBot
-from wrappers import AUTH, Playlist, Track
+from wrappers import AUTH, Playlist, Track, Artist
 from spotipy.oauth2 import SpotifyOAuth
 from secrets import SECRETS
+
+
+"""
+goals for this project:
+
+LIKED SORTER:
+***** run once a month *****
+* get liked library -- done
+* get artists for each track
+* get genres for each track based on the artists
+* for each track, add to the playlist for each of its genres
+    * if track already in playlist --> dont add to playlist
+    * else add to playlist
+    * delete from liked library
+"""
+
+
+def _get_artists(artists: list):
+    return list(map(Artist, artists))
 
 
 if __name__ == "__main__":
@@ -31,6 +50,8 @@ if __name__ == "__main__":
     # ie. have to create function for bot to get genre based on artist
     # eg. def get_genre_by_artist(self, artist)
     tracks = bot.get_liked_library()
-    print(type(tracks))
-    print(type(tracks[0]))
+    track = tracks[0]
 
+    # track.artists is a list of dictionaries.
+    # each dictionary representing one arist
+    print(track.artists)
