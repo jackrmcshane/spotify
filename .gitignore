@@ -158,3 +158,5 @@ cython_debug/
 
 tags
 TAGS
+
+secrets.py
