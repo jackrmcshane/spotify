@@ -57,18 +57,13 @@ class Track(object):
         super(Track, self).__init__()
         self.track = track
         self.album = track['album']
-        self.artists = self._get_artists(track['artists'])
+        self.artists = None
 
         self.duration_ms = track['duration_ms']
         self.explicit = track['explicit']
         self.id = track['id']
         self.name = track['name']
         self.uri = track['uri']
-
-
-    def _get_artists(self, artists: list):
-        return list(map(Artist, artists))
-
 
 
 class Artist(object):
@@ -79,3 +74,4 @@ class Artist(object):
         self.name = artist['name']
         self.type = artist['type']
         self.uri = artist['uri']
+        self.genres = artist['genres']

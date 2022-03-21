@@ -24,8 +24,38 @@ LIKED SORTER:
 """
 
 
-def _get_artists(artists: list):
-    return list(map(Artist, artists))
+
+def test_spotbot(scopes):
+    # initialize bot
+    bot = SpotifyBot(AUTH(scopes, *SECRETS['sorter']))
+    # get Liked Songs library from spotify
+    # tracks is a list of Track wrapper objects
+    # the data returned by spotify does not provide genre,
+    # therefore have to use the artist for each track to get the associated genre
+    # ie. have to create function for bot to get genre based on artist
+    # eg. def get_genre_by_artist(self, artist)
+    tracks = bot.get_liked_library()
+    track = tracks[0]
+
+    # track.artists is a list of dictionaries.
+    # each dictionary representing one arist
+    print(type(track.artists))
+    print(type(track.artists[0]))
+    for art in track.artists:
+        print(art['uri'])
+
+
+
+    # artist_uris = [artist['uri'] for artist in track['artists']]
+    artist_uris = [artist['uri'] for artist in track.artists]
+    returned_artists = bot.auth.spotify.artists(artist_uris)
+    print(type(returned_artists))
+    print(type(returned_artists['artists']))
+    for art in returned_artists['artists']:
+        for key in art.keys():
+            print(key)
+
+    # self.artists = [Artist(artist) for artist in bot.auth.spotify.artists([artist['uri'] for artist in track['artists']])['artists']]
 
 
 if __name__ == "__main__":
@@ -41,17 +71,7 @@ if __name__ == "__main__":
     ]
 
 
-    # initialize bot
-    bot = SpotifyBot(AUTH(scopes, *SECRETS['sorter']))
-    # get Liked Songs library from spotify
-    # tracks is a list of Track wrapper objects
-    # the data returned by spotify does not provide genre,
-    # therefore have to use the artist for each track to get the associated genre
-    # ie. have to create function for bot to get genre based on artist
-    # eg. def get_genre_by_artist(self, artist)
-    tracks = bot.get_liked_library()
-    track = tracks[0]
 
-    # track.artists is a list of dictionaries.
-    # each dictionary representing one arist
-    print(track.artists)
+    print('starting with Sorter bot...')
+    sorter = SorterBot(AUTH(scopes, *SECRETS['sorter']))
+    sorter.sort_liked_library()
