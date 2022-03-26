@@ -8,7 +8,7 @@ Description: a python script for saving my discover weekly playlist to a persona
 
 
 import spotipy
-from wrappers import AUTH, Playlist, Track
+from wrappers import AUTH, Playlist, Track, Artist
 from spotipy.oauth2 import SpotifyOAuth
 
 
@@ -21,6 +21,12 @@ class SpotifyBot(object):
         self.auth = auth
 
 
+    # spotify actually returns a dictionary full of a bunch of metadata
+    # only the 'items' field contains what we actually want
+    # the items field contains a list of dictionaries
+    # each of these dictionaries has two fields:
+        # 'added at', 'track'
+    # each track is its own dictionary
     def get_liked_library(self):
         results = self.auth.spotify.current_user_saved_tracks()
         tracks = [item['track'] for item in results['items']]
@@ -28,7 +34,6 @@ class SpotifyBot(object):
             results = self.auth.spotify.next(results)
             tracks.extend([item['track'] for item in results['items']])
 
-        print(tracks[0].keys())
         return list(map(Track, tracks))
 
 
@@ -43,11 +48,15 @@ class SpotifyBot(object):
 
 
     def get_playlist_tracks(self, pid):
+        # first page of results
         results = self.auth.spotify.playlist_tracks(pid)
+        # extract tracks from first page of results
         tracks = [item['track'] for item in results['items']]
+        # while there is another page
         while results['next']:
+            # reassign results var
             results = self.auth.spotify.next(results)
-            playlists.extend([item['track'] for item in results['items']])
+            tracks.extend([item['track'] for item in results['items']])
 
         return list(map(Track, tracks))
 
@@ -55,6 +64,15 @@ class SpotifyBot(object):
     def save_tracks_to_playlist(self, pid, tracks):
         self.auth.spotify.user_playlist_add_tracks(self.auth.spotify.current_user(), pid, tracks)
 
+
+    # takes one Track object and returns a list of corresponding Artist objects
+    def get_artists_by_track(self, track: Track):
+        # return artists for the track
+        # extract a list of uris from track.track
+        uris = list(map(lambda artist: artist['uri'], track.track['artists']))
+        # list(map(Artist, track.track['artists']))
+        # artists = self.auth.spotify.artists(track.uri)['artists']
+        return list(map(Artist, self.auth.spotify.artists(uris)['artists']))
 
 
 
@@ -67,32 +85,33 @@ class SorterBot(SpotifyBot):
         super(SorterBot, self).__init__(auth)
 
 
-    def sort_liked_playlist(self):
+    def sort_liked_library(self):
         # get liked library songs
-        # get playlists
-        # get tracks for each playlist
-        # for each track in liked library,
-            # if track.artist is not a playlist
-                # create playlist w/ artist name
-                # add track to playlist
-            # else
-                # get corresponding playlist tracks
-                # if current track in playlist tracks
-                    # next
-                # else
-                    # add track to playlist
-            # remove current track from liked library
-        pass
+        liked_tracks = self.get_liked_library()
 
+        for track in liked_tracks:
+            track.artists = self.get_artists_by_track(track)
 
+        # get each playlist under 'Genres' folder
+        playlists = self.get_user_playlists()
+        [print(p.name) for p in playlists]
 
-    def get_genres(self):
-        # get liked library
-        return set(map(lambda track: track.genre, self.get_liked_library()))
-        # get genres of each song
-        # create a set from the genres
-        # return set of genres
-
+        # for each track in liked_tracks
+        for track in liked_tracks:
+            track_genres = list()
+            [track_genres.extend(artist.genres) for artist in track.artists]
+            # for each genre in track.genres
+            for genre in track_genres:
+                # if playlist does not exist
+                if genre not in list(map(lambda p: p.name, playlists)):
+                    # create playlist
+                    # add song to playlist
+                    pass
+                else:
+                    # if track not in playlist
+                        # add track to playlist
+                    pass
+            # delete track from liked library
 
 
 

@@ -159,5 +159,12 @@ cython_debug/
 tags
 TAGS
 tags.lock
+*.js
+*.json
+
+*.txt
+
+
+*.ts
 
 secrets.py
