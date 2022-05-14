@@ -1,6 +1,13 @@
 # Playlist Bot
 
-## Description:
-- the original functionality of this Spotify bot is to create playlists for
-songs from an account's `Likes Songs` library based on artist name if they do not yet exist and and them to said
-playlist
+### Discover Weekly Bot:
+
+> In the works.
+
+> This bot is designed to save my 'Discover Weekly' playlists on spotify to a personal playlist on a weekly basis. This way, I will always have a personalized playlist dedicated to discovering new music.
+
+### Sorting Bot:
+
+> In the works
+
+> This bot is designed to sort my liked library on Spotify into playlists based on each songs genre(s) on a monthly basis. This will allow for a manageable 'liked library' playlist as it 'resets' every month, and easy access to the songs I have 'liked' on Spotify according to genre. This will come in particularly handy when trying to create playlists based on a certain feel/theme. 
