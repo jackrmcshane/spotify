@@ -1,16 +1,20 @@
+
 #!/usr/bin/env python3
-
 import os
-import sys
 import spotipy
-from spotbots import SpotifyBot, SaverBot, SorterBot
-from wrappers import AUTH, Playlist, Track
-from spotipy.oauth2 import SpotifyOAuth
-from secrets import SECRETS
+import sys
+
+from bots.bot import SpotifyBot
+from credentials import SORTER_CREDS
+from wrappers.auth import AUTH
+from wrappers.track import Track
+from wrappers.playlist import Playlist
 
 
-if __name__ == "__main__":
 
+if __name__ == '__main__':
+
+    redirect = 'http://localhost:8080'
 
     # scopes necessary for the bot to do its thing
     scopes = [
@@ -22,8 +26,19 @@ if __name__ == "__main__":
     ]
 
 
-    # initialize bot
-    bot = SpotifyBot(AUTH(scopes, *SECRETS['discover']))
-    # get Liked Songs library from spotify
-    tracks = bot.get_liked_library()
-    print(len(tracks))
+
+
+    playlist = Playlist('first playlist')
+    auth = AUTH(
+            scopes, 
+            SORTER_CREDS['client_id'], 
+            SORTER_CREDS['client_secret'], 
+            redirect
+    )
+
+
+    bot = SpotifyBot(auth)
+    playlists = bot.get_user_playlists()
+    print(type(playlists), len(playlists))
+    for i in range(5):
+        print(playlists[i].get_name())
