@@ -13,9 +13,9 @@ class SpotifyBot(object):
     def __init__(self, auth):
         super(SpotifyBot, self).__init__()
         self.auth = auth
-        print('successful init')
 
 
+    # working!
     def get_user_playlists(self):
 
         results = self.auth.spotify.current_user_playlists()
@@ -25,4 +25,16 @@ class SpotifyBot(object):
             results = self.auth.spotify.next(results)
             playlists.extend(results['items'])
 
-        return [playlist.Playlist(p) for p in playlists]
+        return list(map(Playlist, playlists))
+
+
+    # working!
+    def get_playlist_tracks(self, pid):
+        results = self.auth.spotify.playlist_tracks(pid)
+        tracks = [item['track'] for item in results['items']]
+
+        while results['next']:
+            results = self.auth.spotify.next(results)
+            tracks.extend([item['track'] for item in results['items']])
+
+        return list(map(Track, tracks))

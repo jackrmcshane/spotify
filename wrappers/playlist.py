@@ -7,7 +7,6 @@ class Playlist(object):
         super(Playlist, self).__init__()
         self.playlist = playlist
 
-
     def get_id(self): return self.playlist['id']
     def get_uri(self): return self.playlist['uri']
     def get_name(self): return self.playlist['name']
