@@ -161,3 +161,4 @@ TAGS
 tags.lock
 
 secrets.py
+credentials.py
