@@ -38,20 +38,29 @@ class SorterBot(SpotifyBot):
         # zip playlists together with their tracks
         pairs = list(zip(user_playlists, tracks))
 
-        # for each track in liked library,
-        for track in liked_tracks:
-            # get track artist
-            genre = track.get_genres()
-            # get track genre from track artist
-            # for each genre of track
-                # if genre is already a playlist
-                    # check that track is not already in playlist
-                    # if track is in playlist
-                        # continue
-                    # else
-                        # add track to playlist
-                # else
-                    # create playlist
-                    # add track to playlist
+        self.add_track_to_genre_playlist(genre, user_playlists, track)
+
+        # # for each track in liked library,
+        # for track in liked_tracks:
+        #     # for each genre of track
+        #     for genre in track.get_genres(self.auth):
+        #         self.add_track_to_genre_playlist(genre, user_playlists, track)
+
             # remove track from liked library
-        pass
+            #self.auth.spotify.current_user_saved_tracks_delete(track.get_uri())
+
+
+
+    def add_track_to_genre_playlist(self, genre, user_playlists, track):
+        playlist_names = set([lambda p: p.get_name() for p in user_playlists])
+        for p in playlist_names:
+            print(p)
+        # if genre is already a playlist
+            # check that track is not already in playlist
+            # if track is in playlist
+                # continue
+            # else
+                # add track to playlist
+        # else
+            # create playlist
+            # add track to playlist

@@ -75,4 +75,4 @@ if __name__ == '__main__':
     )
 
 
-    test_track_wrapper(auth)
+    test_sorter(auth)
