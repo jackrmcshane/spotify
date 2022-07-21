@@ -11,6 +11,3 @@ class Playlist(object):
     def get_uri(self): return self.playlist['uri']
     def get_name(self): return self.playlist['name']
     def get_descr(self): return self.playlist['description']
-
-    def get_tracks(self, spotify):
-        raise Error('This function is not yet implemented.')

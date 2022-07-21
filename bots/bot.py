@@ -38,3 +38,10 @@ class SpotifyBot(object):
             tracks.extend([item['track'] for item in results['items']])
 
         return list(map(Track, tracks))
+
+
+
+    def get_playlist_tracks_pairs(self):
+        user_playlists = self.get_user_playlists()
+        playlist_tracks = [self.get_playlist_tracks(p.get_id()) for p in user_playlists]
+        return list(zip(user_playlists, playlist_tracks))
