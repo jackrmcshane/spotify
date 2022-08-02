@@ -1,4 +1,5 @@
 
+import re
 
 from spotipy import SpotifyOAuth
 from wrappers.auth import AUTH
@@ -41,7 +42,12 @@ class SpotifyBot(object):
 
 
 
+    # Not Working!
     def get_playlist_tracks_pairs(self):
         user_playlists = self.get_user_playlists()
+        print(type(user_playlists), len(user_playlists))
+        for p in user_playlists:
+            if re.search('37i9*F2QI', p.get_id()):
+                print(p.get_id(), p.get_name())
         playlist_tracks = [self.get_playlist_tracks(p.get_id()) for p in user_playlists]
         return list(zip(user_playlists, playlist_tracks))

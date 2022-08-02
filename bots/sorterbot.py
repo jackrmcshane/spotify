@@ -56,10 +56,11 @@ class SorterBot(SpotifyBot):
         get_tracks = lambda tup: tup[1]
 
         genres = ['Newwork']
-        print(liked_track.get_name())
-        print(liked_track.get_uri())
         playlist_names = [get_playlist(tup).get_name() for tup in self.pairs]
+        i = 0
         for genre in genres:
+            i += 1
+            print('loop ' + str(i))
             if genre in playlist_names:
                 ind = playlist_names.index(genre)
                 track_names = [t.get_name() for t in get_tracks(self.pairs[ind])]
@@ -70,7 +71,11 @@ class SorterBot(SpotifyBot):
                     print(liked_track.get_name())
                     print(liked_track.get_uri())
                     playlist_id = get_playlist(self.pairs[ind]).get_id()
-                    self.auth.spotify.playlist_add_items(playlist_id, liked_track.get_uri())
+                    print(playlist_id)
+                    print('before post')
+                    print(list(liked_track.get_id()))
+                    self.auth.spotify.playlist_add_items(playlist_id, [liked_track.get_id()], 1)
+                    print('post post')
             else:
                 # create playlist
                 new_playlist = Playlist(self.auth.spotify.user_playlist_create(
