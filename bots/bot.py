@@ -16,7 +16,6 @@ class SpotifyBot(object):
         self.auth = auth
 
 
-    # working!
     def get_user_playlists(self):
 
         results = self.auth.spotify.current_user_playlists()
@@ -29,7 +28,6 @@ class SpotifyBot(object):
         return list(map(Playlist, playlists))
 
 
-    # working!
     def get_playlist_tracks(self, pid):
         results = self.auth.spotify.playlist_tracks(pid)
         tracks = [item['track'] for item in results['items']]

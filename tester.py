@@ -1,11 +1,8 @@
 
 import unittest
-from tests import *
+from tests.test_bot import *
 
 
 
-
-if '__name__' == '__main__':
-
-
+if __name__ == "__main__":
     unittest.main()

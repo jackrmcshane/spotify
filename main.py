@@ -7,6 +7,7 @@ import sys
 from bots.bot import SpotifyBot
 from bots.sorterbot import SorterBot
 
+from etc import SCOPES, REDIRECT
 from credentials import SORTER_CREDS
 
 from wrappers.auth import AUTH
@@ -54,25 +55,26 @@ def test_artist_wrapper(auth):
 
 
 
-
-if __name__ == '__main__':
-
-    redirect = 'http://localhost:8080/callback'
-
-    scopes = [ # scopes necessary for the bot to do its thing
-        'user-library-read',
-        'user-library-modify',
-        'playlist-modify-public',
-        'playlist-modify-private',
-        'playlist-read-private'
-    ]
+def new_main():
 
     auth = AUTH(
-            scopes, 
+            SCOPES, 
             SORTER_CREDS['client_id'], 
             SORTER_CREDS['client_secret'],
-            redirect
+            REDIRECT
     )
 
 
-    test_sorter(auth)
+    bot = SpotifyBot(auth)
+    playlists = bot.get_user_playlists()
+    print(type(playlists))
+
+
+    
+
+
+
+
+if __name__ == '__main__':
+
+    new_main()
