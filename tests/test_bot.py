@@ -1,5 +1,8 @@
+
+HOME_DIR = '/home/asimov/'
+
 import sys
-sys.path.insert(0, '/home/jamcshan/spotify')
+sys.path.insert(0, HOME_DIR + 'spotify/')
 
 import unittest
 from bots.bot import SpotifyBot
@@ -13,12 +16,8 @@ class TestBot(unittest.TestCase):
     def setUp(self) -> None:
 
         self.auth = AUTH(
-                SCOPES, 
-                SORTER_CREDS['client_id'], 
-                SORTER_CREDS['client_secret'],
-                REDIRECT
+                SCOPES, SORTER_CREDS['client_id'], SORTER_CREDS['client_secret'], REDIRECT
         )
-
 
         self.bot = SpotifyBot(self.auth)
 
@@ -28,7 +27,6 @@ class TestBot(unittest.TestCase):
 
     def test_init(self):
         self.assertIsNotNone(self.bot)
-        print("end of test")
 
 
 
@@ -36,5 +34,4 @@ class TestBot(unittest.TestCase):
 
 if __name__ == '__main__':
 
-    print(REDIRECT)
-    
+    unittest.main()

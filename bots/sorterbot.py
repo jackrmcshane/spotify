@@ -73,7 +73,7 @@ class SorterBot(SpotifyBot):
                     playlist_id = get_playlist(self.pairs[ind]).get_id()
                     print(playlist_id)
                     print('before post')
-                    print(list(liked_track.get_id()))
+                    print('printing track id:')
                     self.auth.spotify.playlist_add_items(playlist_id, [liked_track.get_id()], 1)
                     print('post post')
             else:
